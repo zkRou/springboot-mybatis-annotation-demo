@@ -1,10 +1,7 @@
 package com.kris.mybatisdemo.dao;
 
 import com.kris.mybatisdemo.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -17,6 +14,9 @@ import java.util.List;
 public interface UserDao {
 
     @Select("SELECT * FROM user WHERE user_name = #{username}")
+    @Results({
+            @Result(column = "user_name", property = "username")
+    })
     User findUserByUsername(String username);
 
     @Insert("INSERT INTO user(user_name, age) VALUES (#{username}, #{age}) ")
@@ -26,6 +26,9 @@ public interface UserDao {
     Long count();
 
     @Select("SELECT * FROM user")
+    @Results({
+            @Result(column = "user_name", property = "username")
+    })
     List<User> findAll();
 
     @Update("UPDATE user SET user_name = #{username} where id = #{id}")
